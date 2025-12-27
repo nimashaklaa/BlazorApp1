@@ -1,3 +1,14 @@
 # Environment files
 .env
 .env.local
+
+# Production settings with sensitive data
+appsettings.json
+appsettings.Production.json
+
+# Build outputs
+bin/
+obj/
+publish/
+*.dll
+*.pdb

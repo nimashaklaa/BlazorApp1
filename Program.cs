@@ -7,8 +7,16 @@ using System.Text;
 using dotenv.net;
 using Microsoft.OpenApi.Models;
 
-// Load .env file
-DotEnv.Load();
+// Load .env file (optional - only for local development)
+try
+{
+    DotEnv.Load();
+}
+catch
+{
+    // .env file not found - this is OK for production
+    // Configuration will come from appsettings.json instead
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -129,11 +137,12 @@ else
     app.UseHsts();
 }
 
-// Only use HTTPS redirection in production (when HTTPS is configured)
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
+// Only use HTTPS redirection if HTTPS is actually available
+// Somee.com free hosting uses HTTP, so we'll skip this
+// if (!app.Environment.IsDevelopment())
+// {
+//     app.UseHttpsRedirection();
+// }
 
 // Enable CORS
 app.UseCors("AllowAngular");
