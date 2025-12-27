@@ -48,7 +48,7 @@ public class AuthController : ControllerBase
             await using var insertCommand = new NpgsqlCommand(
                 @"INSERT INTO users (name, email, password, created_at)
                   VALUES (@name, @email, @password, @created_at)
-                  RETURNING id",
+                  RETURNING id, hearts",
                 insertConnection);
 
             insertCommand.Parameters.AddWithValue("name", request.Name);
@@ -56,16 +56,22 @@ public class AuthController : ControllerBase
             insertCommand.Parameters.AddWithValue("password", hashedPassword);
             insertCommand.Parameters.AddWithValue("created_at", DateTime.UtcNow);
 
-            var userId = await insertCommand.ExecuteScalarAsync(cancellationToken);
+            await using var reader = await insertCommand.ExecuteReaderAsync(cancellationToken);
+            await reader.ReadAsync(cancellationToken);
+
+            var userId = reader.GetInt32(0);
+            var hearts = reader.GetInt32(1);
 
             // Generate JWT token
-            var token = GenerateJwtToken(userId?.ToString() ?? "", request.Email, request.Name);
+            var token = GenerateJwtToken(userId.ToString(), request.Email, request.Name);
 
             return Ok(new AuthResponse
             {
                 Token = token,
                 Email = request.Email,
-                Name = request.Name
+                Name = request.Name,
+                Hearts = hearts,
+                UserId = userId.ToString()
             });
         }
         catch (Exception ex)
@@ -82,7 +88,7 @@ public class AuthController : ControllerBase
             // Find user by email
             await using var connection = await _dataSource.OpenConnectionAsync(cancellationToken);
             await using var command = new NpgsqlCommand(
-                "SELECT id, name, email, password FROM users WHERE email = @email",
+                "SELECT id, name, email, password, hearts FROM users WHERE email = @email",
                 connection);
             command.Parameters.AddWithValue("email", request.Email.ToLower());
 
@@ -97,6 +103,7 @@ public class AuthController : ControllerBase
             var name = reader.GetString(1);
             var email = reader.GetString(2);
             var hashedPassword = reader.GetString(3);
+            var hearts = reader.GetInt32(4);
 
             // Verify password
             if (!BCrypt.Net.BCrypt.Verify(request.Password, hashedPassword))
@@ -111,7 +118,9 @@ public class AuthController : ControllerBase
             {
                 Token = token,
                 Email = email,
-                Name = name
+                Name = name,
+                Hearts = hearts,
+                UserId = userId.ToString()
             });
         }
         catch (Exception ex)
