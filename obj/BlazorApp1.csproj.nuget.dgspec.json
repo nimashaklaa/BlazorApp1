@@ -56,6 +56,10 @@
               "target": "Package",
               "version": "[8.0.3, )"
             },
+            "Stripe.net": {
+              "target": "Package",
+              "version": "[50.1.0, )"
+            },
             "dotenv.net": {
               "target": "Package",
               "version": "[4.0.0, )"

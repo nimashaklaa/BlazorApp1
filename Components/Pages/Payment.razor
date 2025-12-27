@@ -1,0 +1,123 @@
+@page "/payment"
+@rendermode InteractiveServer
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IConfiguration Configuration
+
+<PageTitle>Payment</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="mb-4">Make a Payment</h1>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @errorMessage
+                </div>
+            }
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Product Information</h5>
+                    <EditForm Model="@paymentRequest" OnValidSubmit="@HandleSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <InputText id="productName" class="form-control" @bind-Value="paymentRequest.ProductName" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount (USD)</label>
+                            <InputNumber id="amount" class="form-control" @bind-Value="amount" step="0.01" />
+                            <small class="form-text text-muted">Enter amount in dollars (e.g., 10.00)</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <InputNumber id="quantity" class="form-control" @bind-Value="paymentRequest.Quantity" />
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" disabled="@isProcessing">
+                                @if (isProcessing)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    <span>Processing...</span>
+                                }
+                                else
+                                {
+                                    <span>Proceed to Checkout</span>
+                                }
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+
+            <div class="mt-3 text-muted">
+                <small>You will be redirected to Stripe's secure checkout page.</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private PaymentRequest paymentRequest = new();
+    private decimal amount = 10.00m;
+    private bool isProcessing = false;
+    private string errorMessage = string.Empty;
+
+    private async Task HandleSubmit()
+    {
+        isProcessing = true;
+        errorMessage = string.Empty;
+
+        try
+        {
+            // Convert dollar amount to cents
+            paymentRequest.Amount = (long)(amount * 100);
+
+            var httpClient = new HttpClient { BaseAddress = new Uri(Navigation.BaseUri) };
+            var response = await httpClient.PostAsJsonAsync("api/payment/create-checkout-session", paymentRequest);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<CheckoutSessionResponse>();
+                if (result?.Url != null)
+                {
+                    Navigation.NavigateTo(result.Url, forceLoad: true);
+                }
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                errorMessage = $"Failed to create checkout session: {error}";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An error occurred: {ex.Message}";
+        }
+        finally
+        {
+            isProcessing = false;
+        }
+    }
+
+    public class PaymentRequest
+    {
+        public string ProductName { get; set; } = "Sample Product";
+        public long Amount { get; set; }
+        public int Quantity { get; set; } = 1;
+    }
+
+    public class CheckoutSessionResponse
+    {
+        public string SessionId { get; set; } = string.Empty;
+        public string Url { get; set; } = string.Empty;
+    }
+}

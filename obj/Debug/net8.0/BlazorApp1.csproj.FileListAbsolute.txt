@@ -44,3 +44,7 @@
 /Users/amandinimasha/self/demos for .net/BlazorApp1/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/amandinimasha/self/demos for .net/BlazorApp1/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/amandinimasha/self/demos for .net/BlazorApp1/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/amandinimasha/self/demos for .net/BlazorApp1/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/amandinimasha/self/demos for .net/BlazorApp1/bin/Debug/net8.0/Stripe.net.dll
+/Users/amandinimasha/self/demos for .net/BlazorApp1/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
+/Users/amandinimasha/self/demos for .net/BlazorApp1/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
