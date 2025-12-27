@@ -1,4 +1,4 @@
-/* _content/BlazorApp1/Components/Layout/MainLayout.razor.rz.scp.css */
+/* /Components/Layout/MainLayout.razor.rz.scp.css */
 .page[b-nz1yiwl0um] {
     position: relative;
     display: flex;
@@ -95,7 +95,7 @@ main[b-nz1yiwl0um] {
         right: 0.75rem;
         top: 0.5rem;
     }
-/* _content/BlazorApp1/Components/Layout/NavMenu.razor.rz.scp.css */
+/* /Components/Layout/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-zjo6z1fhij] {
     appearance: none;
     cursor: pointer;
