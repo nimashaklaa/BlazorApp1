@@ -46,8 +46,9 @@ public class PaymentController : ControllerBase
                     },
                 },
                 Mode = "payment",
-                SuccessUrl = $"{Request.Scheme}://{Request.Host}/payment-success?session_id={{CHECKOUT_SESSION_ID}}",
-                CancelUrl = $"{Request.Scheme}://{Request.Host}/payment-cancel",
+                // Redirect to Angular app after successful payment
+                SuccessUrl = $"{_stripeSettings.AngularAppUrl}/payment-success?session_id={{CHECKOUT_SESSION_ID}}",
+                CancelUrl = $"{_stripeSettings.AngularAppUrl}/credit-shop",
             };
 
             var service = new SessionService();

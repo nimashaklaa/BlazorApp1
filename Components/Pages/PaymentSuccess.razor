@@ -55,8 +55,8 @@
         {
             try
             {
-                var httpClient = new HttpClient { BaseAddress = new Uri(Navigation.BaseUri) };
-                sessionDetails = await httpClient.GetFromJsonAsync<SessionDetails>($"api/payment/session/{SessionId}");
+                Http.BaseAddress = new Uri(Navigation.BaseUri);
+                sessionDetails = await Http.GetFromJsonAsync<SessionDetails>($"api/payment/session/{SessionId}");
             }
             catch
             {
