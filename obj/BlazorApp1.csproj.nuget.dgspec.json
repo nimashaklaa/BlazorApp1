@@ -60,6 +60,10 @@
               "target": "Package",
               "version": "[50.1.0, )"
             },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            },
             "dotenv.net": {
               "target": "Package",
               "version": "[4.0.0, )"
