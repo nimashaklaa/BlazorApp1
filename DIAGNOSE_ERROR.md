@@ -108,3 +108,4 @@ curl -X POST http://xshop.somee.com/api/database/setup
 
 **The error logs will tell us exactly what's wrong!**
 
+

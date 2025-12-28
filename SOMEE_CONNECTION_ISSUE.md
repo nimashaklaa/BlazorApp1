@@ -52,3 +52,4 @@ If you need to test locally, you can:
 2. Contact Somee.com support to ask about external database connections
 3. Consider using a different hosting provider if Somee.com blocks connections
 
+

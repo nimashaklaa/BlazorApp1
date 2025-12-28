@@ -88,3 +88,4 @@ echo "   2. Configure your PostgreSQL database connection"
 echo "   3. Set up JWT and Stripe keys"
 echo ""
 
+

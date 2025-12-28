@@ -105,3 +105,4 @@ If the error persists:
 2. Verify the connection string works from your local machine
 3. Make sure Neon database allows connections from Somee.com IPs (usually enabled by default)
 
+

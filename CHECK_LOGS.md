@@ -62,3 +62,4 @@ Since the app starts but fails on requests, the issue is almost certainly:
 
 The `/api/database/health` endpoint just runs `SELECT 1`, so if it's failing, it's a connection issue or the connection string is wrong.
 
+

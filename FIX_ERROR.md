@@ -154,3 +154,4 @@ Here's an example with placeholder values you need to replace:
 - Check your database provider's firewall/network settings
 - Somee.com's IP might need to be whitelisted
 
+

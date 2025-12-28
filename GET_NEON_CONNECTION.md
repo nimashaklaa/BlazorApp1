@@ -41,3 +41,4 @@ Host=ep-cool-name-123456.us-east-2.aws.neon.tech;Database=neondb;Username=myuser
 ## Quick Copy:
 Once you have your Neon connection string, share it with me and I'll update the appsettings.json file for you!
 
+

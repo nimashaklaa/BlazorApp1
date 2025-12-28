@@ -80,3 +80,4 @@ curl http://xshop.somee.com/api/database/health
 
 Should return: `{"status":"ok","result":1}`
 
+

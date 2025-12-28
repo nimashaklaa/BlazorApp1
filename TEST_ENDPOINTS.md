@@ -59,3 +59,4 @@ If `/api/database/health` still gives an error, the issue is likely:
 
 Check Somee.com error logs for the exact error!
 
+
